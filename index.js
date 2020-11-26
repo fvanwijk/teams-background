@@ -40,7 +40,18 @@ async function convert() {
         [Jimp.FONT_SANS_64_BLACK]: blackFont,
       };
 
-      image.print(dateFont, 80, 148, format(new Date(), 'd MMMM'));
+      image.print(
+        dateFont,
+        -20,
+        187,
+        {
+          text: format(new Date(), 'd MMM').toUpperCase(),
+          alignmentX: Jimp.HORIZONTAL_ALIGN_RIGHT,
+          alignmentY: Jimp.VERTICAL_ALIGN_MIDDLE,
+        },
+        484,
+        0
+      );
       positions.forEach(({ font, key, x, y }) => {
         image.print(fonts[font], x, y, data[key]);
       });
