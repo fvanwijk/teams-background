@@ -1,0 +1,27 @@
+{
+  "name": "teams-background",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/xebia/teams-background.git"
+  },
+  "keywords": [],
+  "author": "Frank van Wijk",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/xebia/teams-background/issues"
+  },
+  "homepage": "https://github.com/xebia/teams-background#readme",
+  "devDependencies": {
+    "nodemon": "2.0.6",
+    "prettier": "2.2.0"
+  },
+  "dependencies": {
+    "jimp": "0.16.1"
+  }
+}
