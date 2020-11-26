@@ -1,4 +1,5 @@
 const path = require('path');
+const { format } = require('date-fns');
 
 input = 'weerkaart_empty.jpg';
 output = 'weerkaart.jpg';
@@ -39,7 +40,7 @@ async function convert() {
         [Jimp.FONT_SANS_64_BLACK]: blackFont,
       };
 
-      image.print(dateFont, 80, 148, '26 november');
+      image.print(dateFont, 80, 148, format(new Date(), 'd MMMM'));
       positions.forEach(({ font, key, x, y }) => {
         image.print(fonts[font], x, y, data[key]);
       });
