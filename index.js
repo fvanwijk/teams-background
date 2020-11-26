@@ -1,33 +1,47 @@
 const path = require('path');
+const fs = require('fs');
 const { format } = require('date-fns');
+const Jimp = require('jimp');
+const fetch = require('node-fetch');
 
 input = 'weerkaart_empty.jpg';
 output = 'weerkaart.jpg';
 
-const Jimp = require('jimp');
-
 const positions = [
-  { key: 'wind', x: 640, y: 443, font: Jimp.FONT_SANS_64_WHITE },
-  { key: 'temp_nh', x: 978, y: 235, font: Jimp.FONT_SANS_64_BLACK },
-  { key: 'temp_gr', x: 1306, y: 120, font: Jimp.FONT_SANS_64_BLACK },
-  { key: 'temp_ov', x: 1306, y: 422, font: Jimp.FONT_SANS_64_BLACK },
-  { key: 'temp_ut', x: 1062, y: 555, font: Jimp.FONT_SANS_64_BLACK },
-  { key: 'temp_zl', x: 743, y: 697, font: Jimp.FONT_SANS_64_BLACK },
-  { key: 'temp_lb', x: 1145, y: 871, font: Jimp.FONT_SANS_64_BLACK },
+  // { key: 'wind', x: 640, y: 443, font: Jimp.FONT_SANS_64_WHITE },
+  { name: 'nh', id: 2757220, x: 978, y: 235, font: Jimp.FONT_SANS_64_BLACK },
+  { name: 'gr', id: 2747956, x: 1306, y: 120, font: Jimp.FONT_SANS_64_BLACK },
+  { name: 'ov', id: 2743477, x: 1306, y: 422, font: Jimp.FONT_SANS_64_BLACK },
+  { name: 'ut', id: 2745912, x: 1062, y: 555, font: Jimp.FONT_SANS_64_BLACK },
+  { name: 'zl', id: 2750896, x: 743, y: 697, font: Jimp.FONT_SANS_64_BLACK },
+  { name: 'lb', id: 2751283, x: 1145, y: 871, font: Jimp.FONT_SANS_64_BLACK },
 ];
 
-const data = {
-  wind: 5,
-  temp_nh: 20,
-  temp_gr: 18,
-  temp_ov: 20,
-  temp_ut: 21,
-  temp_zl: 20,
-  temp_lb: 22,
-};
+const currentWeatherSymbol = 'https://gadgets.buienradar.nl/gadget/weathersymbol';
+
+async function getWeatherData() {
+  const api = 'https://forecast.buienradar.nl/2.0/forecast/';
+  return Promise.all(
+    positions.map(async ({ id, name, x, y, font }) => {
+      const json = await (await fetch(`${api}${id}`)).json();
+      return {
+        id,
+        font,
+        name,
+        temp: Math.round(json.nowrelevant.values[0].value),
+        x,
+        y,
+      };
+    })
+  );
+}
+
+getWeatherData();
 
 async function convert() {
   try {
+    const data = await getWeatherData();
+
     Jimp.read(path.join(`./${input}`)).then(async image => {
       const [whiteFont, blackFont, dateFont] = await Promise.all([
         Jimp.loadFont(Jimp.FONT_SANS_64_WHITE),
@@ -52,8 +66,8 @@ async function convert() {
         484,
         0
       );
-      positions.forEach(({ font, key, x, y }) => {
-        image.print(fonts[font], x, y, data[key]);
+      data.forEach(({ font, temp, x, y }) => {
+        image.print(fonts[font], x, y, temp);
       });
       await image.writeAsync(output);
 
@@ -63,4 +77,5 @@ async function convert() {
     console.log('Failed', e);
   }
 }
+
 convert();
