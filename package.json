@@ -24,6 +24,8 @@
   "dependencies": {
     "date-fns": "2.16.1",
     "jimp": "0.16.1",
-    "node-fetch": "2.6.1"
+    "node-fetch": "2.6.1",
+    "pino": "6.7.0",
+    "pino-pretty": "4.3.0"
   }
 }

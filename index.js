@@ -3,6 +3,9 @@ const fs = require('fs');
 const { format } = require('date-fns');
 const Jimp = require('jimp');
 const fetch = require('node-fetch');
+const logger = require('pino')({
+  prettyPrint: { levelFirst: true, translateTime: 'yyyy-mm-dd HH:MM:ss', ignore: 'pid,hostname' },
+});
 
 input = 'weerkaart_empty.jpg';
 output = 'weerkaart.jpg';
@@ -82,10 +85,10 @@ async function convert() {
       });
       await image.writeAsync(output);
 
-      console.log(`Output image at ${output}`);
+      logger.info(`Output image at ${output}`);
     });
   } catch (e) {
-    console.log('Failed', e);
+    logger.error('Failed', e);
   }
 }
 
