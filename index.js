@@ -8,7 +8,7 @@ input = 'weerkaart_empty.jpg';
 output = 'weerkaart.jpg';
 
 const positions = [
-  // { key: 'wind', x: 640, y: 443, font: Jimp.FONT_SANS_64_WHITE },
+  { name: 'wind', id: 2744042, x: 640, y: 443, font: Jimp.FONT_SANS_64_WHITE },
   { name: 'nh', id: 2757220, x: 978, y: 235, font: Jimp.FONT_SANS_64_BLACK },
   { name: 'gr', id: 2747956, x: 1306, y: 120, font: Jimp.FONT_SANS_64_BLACK },
   { name: 'ov', id: 2743477, x: 1306, y: 422, font: Jimp.FONT_SANS_64_BLACK },
@@ -23,15 +23,26 @@ async function getWeatherData() {
   const api = 'https://forecast.buienradar.nl/2.0/forecast/';
   return Promise.all(
     positions.map(async ({ id, name, x, y, font }) => {
-      const json = await (await fetch(`${api}${id}`)).json();
-      return {
-        id,
-        font,
-        name,
-        temp: Math.round(json.nowrelevant.values[0].value),
-        x,
-        y,
-      };
+      let temp, wind, windDir, windDeg;
+      if (id) {
+        const json = await (await fetch(`${api}${id}`)).json();
+        const {
+          nowrelevant: { values },
+        } = json;
+        const t = values.find(({ type }) => type === 'maxtemperature');
+        const w = values.find(({ type }) => type === 'beaufort');
+        temp = t && Math.round(t.value);
+        wind = w && w.value;
+        windDir = json.days[0].winddirection;
+        windDeg = json.days[0].winddirectiondegrees;
+      } else {
+        temp = undefined;
+        wind = undefined;
+        windDir = undefined;
+        windDeg = undefined;
+      }
+
+      return { id, font, name, temp, wind, windDir, windDeg, x, y };
     })
   );
 }
