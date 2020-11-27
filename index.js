@@ -1,5 +1,6 @@
 const path = require('path');
 const fs = require('fs');
+const getAppDataPath = require('appdata-path');
 const { format } = require('date-fns');
 const Jimp = require('jimp');
 const fetch = require('node-fetch');
@@ -21,6 +22,8 @@ const positions = [
 ];
 
 const currentWeatherSymbol = 'https://gadgets.buienradar.nl/gadget/weathersymbol';
+
+const teamsDir = getAppDataPath('Microsoft/Teams/Backgrounds/Uploads');
 
 async function getWeatherData() {
   const api = 'https://forecast.buienradar.nl/2.0/forecast/';
@@ -81,9 +84,10 @@ async function convert() {
       data.forEach(({ font, temp, x, y }) => {
         image.print(fonts[font], x, y, temp);
       });
-      await image.writeAsync(output);
+      const outputPath = path.join(teamsDir, output);
+      await image.writeAsync(outputPath);
 
-      logger.info(`Output image at ${output}`);
+      logger.info(`Output image at ${outputPath}`);
     });
   } catch (e) {
     logger.error('Failed', e);
