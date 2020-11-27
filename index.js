@@ -50,8 +50,6 @@ async function getWeatherData() {
   );
 }
 
-getWeatherData();
-
 async function convert() {
   try {
     const data = await getWeatherData();
@@ -93,3 +91,4 @@ async function convert() {
 }
 
 convert();
+setInterval(convert, 5 * 60000);
