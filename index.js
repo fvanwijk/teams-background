@@ -12,12 +12,12 @@ output = 'weerkaart.jpg';
 
 const positions = [
   { name: 'wind', id: 2744042, x: 640, y: 443, font: Jimp.FONT_SANS_64_WHITE },
-  { name: 'nh', id: 2757220, x: 978, y: 235, font: Jimp.FONT_SANS_64_BLACK },
-  { name: 'gr', id: 2747956, x: 1306, y: 120, font: Jimp.FONT_SANS_64_BLACK },
+  { name: 'nh', id: 100000262, x: 978, y: 235, font: Jimp.FONT_SANS_64_BLACK },
+  { name: 'gr', id: 2756408, x: 1306, y: 120, font: Jimp.FONT_SANS_64_BLACK },
   { name: 'ov', id: 2743477, x: 1306, y: 422, font: Jimp.FONT_SANS_64_BLACK },
-  { name: 'ut', id: 2745912, x: 1062, y: 555, font: Jimp.FONT_SANS_64_BLACK },
-  { name: 'zl', id: 2750896, x: 743, y: 697, font: Jimp.FONT_SANS_64_BLACK },
-  { name: 'lb', id: 2751283, x: 1145, y: 871, font: Jimp.FONT_SANS_64_BLACK },
+  { name: 'ut', id: 2757783, x: 1062, y: 555, font: Jimp.FONT_SANS_64_BLACK },
+  { name: 'zl', id: 2745392, x: 743, y: 697, font: Jimp.FONT_SANS_64_BLACK },
+  { name: 'lb', id: 2759350, x: 1145, y: 871, font: Jimp.FONT_SANS_64_BLACK },
 ];
 
 const currentWeatherSymbol = 'https://gadgets.buienradar.nl/gadget/weathersymbol';
