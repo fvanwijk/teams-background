@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon index.js"
+    "start": "node index.js",
+    "start:interval": "INTERVAL_MINUTES=5 node index.js",
+    "dev": "nodemon index.js"
   },
   "repository": {
     "type": "git",

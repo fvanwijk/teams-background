@@ -95,4 +95,7 @@ async function convert() {
 }
 
 convert();
-setInterval(convert, 5 * 60000);
+
+if (process.env.INTERVAL_MINUTES) {
+  setInterval(convert, process.env.INTERVAL_MINUTES * 60000);
+}
