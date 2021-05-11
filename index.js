@@ -81,8 +81,18 @@ async function convert() {
         484,
         0
       );
-      data.forEach(({ font, temp, x, y }) => {
-        image.print(fonts[font], x, y, temp);
+
+      const dataToRender = data.map(({ font, temp, wind, x, y }) => {
+        return {
+          font: fonts[font],
+          value: { [Jimp.FONT_SANS_64_WHITE]: wind, [Jimp.FONT_SANS_64_BLACK]: temp }[font],
+          x,
+          y,
+        };
+      });
+
+      dataToRender.forEach(({ font, value, x, y }) => {
+        image.print(font, x, y, value);
       });
       const outputPath = path.join(teamsDir, output);
       await image.writeAsync(outputPath);
