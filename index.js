@@ -82,6 +82,7 @@ async function convert() {
         0
       );
 
+      console.log(data);
       const dataToRender = data.map(({ font, temp, wind, x, y }) => {
         return {
           font: fonts[font],
@@ -92,7 +93,7 @@ async function convert() {
       });
 
       dataToRender.forEach(({ font, value, x, y }) => {
-        image.print(font, x, y, value);
+        image.print(font, x, y, value || '');
       });
       const outputPath = path.join(teamsDir, output);
       await image.writeAsync(outputPath);
