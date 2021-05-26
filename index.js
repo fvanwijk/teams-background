@@ -82,7 +82,6 @@ async function convert() {
         0
       );
 
-      console.log(data);
       const dataToRender = data.map(({ font, temp, wind, x, y }) => {
         return {
           font: fonts[font],
