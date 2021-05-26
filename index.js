@@ -23,6 +23,7 @@ const positions = [
 
 const currentWeatherSymbol = 'https://gadgets.buienradar.nl/gadget/weathersymbol';
 
+logger.info(`Current environment: ${process.env.NODE_ENV || 'development'}`);
 const teamsDir = process.env.NODE_ENV === 'production' ? getAppDataPath('Microsoft/Teams/Backgrounds/Uploads') : './';
 
 async function getWeatherData() {
